@@ -68,13 +68,32 @@ public class ValidationControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    /**
+     * 141 characters are not allowed!
+     */
     @Test
     public void shouldRejectInvalidStringEn() throws Exception {
         this.mockMvc.perform(post("/validation")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, "en-GB")
                 .content("{" +
-                        "\"someStringValue\":\"abc\"," +
+                        "\"someStringValue\":\"MSsX0DHN2FKHCjkkyMuCnj9PNQ10wD0QmN863rQZOPZIXiJg2vvRMdC9AJDDXeX5AVnglYG2lkHtVv9L47gI40IBdKS4MrgPe13GaS0iKgZeukJJS3zcOHywx39QyjejadI46wSmhi8si\n\"," +
+                        "\"someIntValue\":1" +
+                        "}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    /**
+     * Germans cannot write short sentences.
+     * https://pbs.twimg.com/media/CaKX_r2UEAAf21U.jpg
+     */
+    @Test
+    public void shouldAcceptLongerStringForDe() throws Exception {
+        this.mockMvc.perform(post("/validation")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .header(HttpHeaders.ACCEPT_LANGUAGE, "de-DE")
+                .content("{" +
+                        "\"someStringValue\":\"MSsX0DHN2FKHCjkkyMuCnj9PNQ10wD0QmN863rQZOPZIXiJg2vvRMdC9AJDDXeX5AVnglYG2lkHtVv9L47gI40IBdKS4MrgPe13GaS0iKgZeukJJS3zcOHywx39QyjejadI46wSmhi8si\n\"," +
                         "\"someIntValue\":1" +
                         "}"))
                 .andExpect(status().isBadRequest());

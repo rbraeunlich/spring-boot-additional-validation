@@ -9,7 +9,7 @@ import org.springframework.validation.Errors;
 public class StringValueValidator {
 
     public void validate(Data data, Errors errors) {
-        if (data.getSomeStringValue().length() > 2) {
+        if (data.getSomeStringValue().length() > 140) {
             errors.reject("someStringValue");
         }
     }
