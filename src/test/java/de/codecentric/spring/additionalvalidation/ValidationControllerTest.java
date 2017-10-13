@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -33,9 +34,22 @@ public class ValidationControllerTest {
     }
 
     @Test
-    public void shouldAcceptValidData() throws Exception {
+    public void shouldAcceptValidDataEn() throws Exception {
         this.mockMvc.perform(post("/validation")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .header(HttpHeaders.ACCEPT_LANGUAGE, "en-GB")
+                .content("{" +
+                        "\"someStringValue\":\"ab\"," +
+                        "\"someIntValue\":2" +
+                        "}"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void shouldAcceptValidDataDe() throws Exception {
+        this.mockMvc.perform(post("/validation")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .header(HttpHeaders.ACCEPT_LANGUAGE, "de-DE")
                 .content("{" +
                         "\"someStringValue\":\"abc\"," +
                         "\"someIntValue\":2" +
@@ -50,6 +64,18 @@ public class ValidationControllerTest {
                 .content("{" +
                         "\"someStringValue\":\"abc\"," +
                         "\"someIntValue\":0" +
+                        "}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void shouldRejectInvalidStringEn() throws Exception {
+        this.mockMvc.perform(post("/validation")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .header(HttpHeaders.ACCEPT_LANGUAGE, "en-GB")
+                .content("{" +
+                        "\"someStringValue\":\"abc\"," +
+                        "\"someIntValue\":1" +
                         "}"))
                 .andExpect(status().isBadRequest());
     }

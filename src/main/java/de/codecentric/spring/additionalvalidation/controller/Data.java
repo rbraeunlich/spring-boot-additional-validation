@@ -19,4 +19,12 @@ public class Data {
         this.someStringValue = someStringValue;
         this.someIntValue = someIntValue;
     }
+
+    public String getSomeStringValue() {
+        return someStringValue;
+    }
+
+    public int getSomeIntValue() {
+        return someIntValue;
+    }
 }
