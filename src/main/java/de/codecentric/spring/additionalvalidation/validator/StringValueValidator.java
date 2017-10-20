@@ -1,14 +1,9 @@
 package de.codecentric.spring.additionalvalidation.validator;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import de.codecentric.spring.additionalvalidation.controller.Data;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Component
 public class StringValueValidator {
