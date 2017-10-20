@@ -99,4 +99,24 @@ public class ValidationControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    public void shouldSwitchLanguageBetweenTwoRequests() throws Exception {
+        this.mockMvc.perform(post("/validation")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .header(HttpHeaders.ACCEPT_LANGUAGE, "en-GB")
+                .content("{" +
+                        "\"someStringValue\":\"MSsX0DHN2FKHCjkkyMuCnj9PNQ10wD0QmN863rQZOPZIXiJg2vvRMdC9AJDDXeX5AVnglYG2lkHtVv9L47gI40IBdKS4MrgPe13GaS0iKgZeukJJS3zcOHywx39QyjejadI46wSmhi8si\"," +
+                        "\"someIntValue\":1" +
+                        "}"))
+                .andExpect(status().isBadRequest());
+        this.mockMvc.perform(post("/validation")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .header(HttpHeaders.ACCEPT_LANGUAGE, "de-DE")
+                .content("{" +
+                        "\"someStringValue\":\"MSsX0DHN2FKHCjkkyMuCnj9PNQ10wD0QmN863rQZOPZIXiJg2vvRMdC9AJDDXeX5AVnglYG2lkHtVv9L47gI40IBdKS4MrgPe13GaS0iKgZeukJJS3zcOHywx39QyjejadI46wSmhi8si\"," +
+                        "\"someIntValue\":1" +
+                        "}"))
+                .andExpect(status().isOk());
+    }
+
 }

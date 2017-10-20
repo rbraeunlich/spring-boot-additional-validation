@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.stream.Collectors;
 
@@ -29,9 +30,7 @@ public class ValidationController {
 
     @RequestMapping(value = "/validation", method = RequestMethod.POST)
     public ResponseEntity<?> acceptData(@Validated @RequestBody Data data, Errors errors, @RequestHeader(HttpHeaders.ACCEPT_LANGUAGE) String language) {
-        if (!"de-DE".equals(language)) {
-            stringValueValidator.validate(data, errors);
-        }
+        stringValueValidator.validate(language, data, errors);
         if (errors.hasErrors()) {
             return new ResponseEntity<>(createErrorString(errors), HttpStatus.BAD_REQUEST);
         }
